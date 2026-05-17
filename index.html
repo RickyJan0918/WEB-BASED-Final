@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradeVault System</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Header Title */
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Interface Navigation Tabs */
+        .tab-container {
+            display: flex;
+            background: #eef2f7;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            background: white;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        /* Content Panel */
+        .content {
+            padding: 24px;
+            min-height: 400px;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Form Styles (Interface 1) */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #357abd;
+        }
+
+        /* Statistics Layout (Interface 2) */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .stat-box.gpa {
+            background-color: #fff7e6;
+            color: #d48806;
+        }
+
+        .stat-box.credits {
+            background-color: #e6f7ff;
+            color: #1890ff;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 20px;
+        }
+
+        /* Table Styles (Interface 2) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 14px 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            color: #888;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        td {
+            font-size: 15px;
+        }
+
+        .status-passed {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .status-failed {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">GradeVault Dashboard</div>
+
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab('tab1', event)">Course Selection (Tab 1)</button>
+            <button class="tab-btn" onclick="switchTab('tab2', event)">Grade Inquiry (Tab 2)</button>
+        </div>
+
+        <div class="content">
+
+            <div id="tab1" class="panel active">
+                <div class="form-group">
+                    <label for="courseSelect">Select Course (Credits shown in brackets)</label>
+                    <select id="courseSelect">
+                        <option value="Database System">Database System (4 Credits)</option>
+                        <option value="Web Programming">Web Programming (3 Credits)</option>
+                        <option value="Calculus I">Calculus I (4 Credits)</option>
+                        <option value="Calculus II">Calculus II (4 Credits)</option>
+                        <option value="Data Structure">Data Structure (3 Credits)</option>
+                        <option value="Introduction to cryptography">Introduction to cryptography (3 Credits)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gpaInput">Enter GPA (0.0 ~ 4.3)</label>
+                    <input type="number" id="gpaInput" min="0" max="4.3" step="0.1" placeholder="e.g., 3.7">
+                </div>
+
+                <button class="btn-submit" onclick="addCourse()">Add Course Grade</button>
+            </div>
+
+            <div id="tab2" class="panel">
+                <div class="stats-container">
+                    <div class="stat-box gpa">
+                        <div class="stat-label">GPA</div>
+                        <div class="stat-value" id="avgGpa">0.00</div>
+                    </div>
+                    <div class="stat-box credits">
+                        <div class="stat-label">Credits</div>
+                        <div class="stat-value" id="totalCredits">0 / 128</div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">Course</th>
+                            <th>Grade</th>
+                            <th>Credits</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradeTableBody">
+                        <tr>
+                            <td colspan="4" class="no-data">No data available. Please add courses in Tab 1.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Course Credits Mapping
+        const creditMap = {
+            "Database System": 4,
+            "Web Programming": 3,
+            "Calculus I": 4,
+            "Calculus II": 4,
+            "Data Structure": 3,
+            "Introduction to cryptography": 3
+        };
+
+        // Array to store selected courses
+        let addedCourses = [];
+
+        // 1. Tab Switching Logic
+        function switchTab(tabId, event) {
+            // Switch active state for tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Switch active state for panels
+            document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            // Re-render dashboard if switching to Interface 2
+            if (tabId === 'tab2') {
+                renderDashboard();
+            }
+        }
+
+        // 2. GPA to Letter Grade Converter
+        function convertGpaToLetter(gpa) {
+            if (gpa >= 4.1 && gpa <= 4.3) return 'A+';
+            if (gpa >= 3.8 && gpa <= 4.0) return 'A';
+            if (gpa >= 3.4 && gpa <= 3.7) return 'B+';
+            if (gpa >= 3.1 && gpa <= 3.3) return 'B';
+            if (gpa >= 2.8 && gpa <= 3.0) return 'B-';
+            if (gpa >= 2.4 && gpa <= 2.7) return 'C+';
+            if (gpa >= 2.1 && gpa <= 2.3) return 'C';
+            if (gpa >= 1.8 && gpa <= 2.0) return 'C-';
+            if (gpa >= 1.3 && gpa <= 1.7) return 'D+';
+            if (gpa >= 1.0 && gpa <= 1.2) return 'D';
+            return 'F';
+        }
+
+        // 3. Interface 1: Add Course Event
+        function addCourse() {
+            const courseName = document.getElementById('courseSelect').value;
+            const gpaValue = parseFloat(document.getElementById('gpaInput').value);
+
+            // Validate numerical input
+            if (isNaN(gpaValue) || gpaValue < 0 || gpaValue > 4.3) {
+                alert('Please enter a valid GPA score between 0.0 and 4.3!');
+                return;
+            }
+
+            // Check for duplicates
+            const isExist = addedCourses.some(course => course.name === courseName);
+            if (isExist) {
+                alert('This course has already been added! Please refresh the page if you wish to modify it.');
+                return;
+            }
+
+            // Create course object and push into array
+            const courseData = {
+                name: courseName,
+                gpa: gpaValue,
+                credits: creditMap[courseName],
+                letterGrade: convertGpaToLetter(gpaValue),
+                status: gpaValue < 3.0 ? 'Failed' : 'Passed'
+            };
+
+            addedCourses.push(courseData);
+            alert(`Successfully added: ${courseName}`);
+
+            // Reset input field
+            document.getElementById('gpaInput').value = '';
+        }
+
+        // 4. Interface 2: Calculation and Dashboard Rendering
+        function renderDashboard() {
+            const tableBody = document.getElementById('gradeTableBody');
+            const avgGpaEl = document.getElementById('avgGpa');
+            const totalCreditsEl = document.getElementById('totalCredits');
+
+            // Fallback if no records found
+            if (addedCourses.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" class="no-data">No data available. Please add courses in Tab 1.</td></tr>`;
+                avgGpaEl.innerText = "0.00";
+                totalCreditsEl.innerText = "0 / 128";
+                return;
+            }
+
+            let totalCredits = 0;
+            let totalWeightedGpa = 0;
+            let tableRowsHtml = '';
+
+            // Iterate through courses, calculate totals and build table rows
+            addedCourses.forEach(course => {
+                totalCredits += course.credits;
+                totalWeightedGpa += (course.gpa * course.credits);
+
+                const statusClass = course.status === 'Passed' ? 'status-passed' : 'status-failed';
+
+                tableRowsHtml += `
+                <tr>
+                    <td>${course.name}</td>
+                    <td>${course.letterGrade}</td>
+                    <td>${course.credits}</td>
+                    <td class="${statusClass}">${course.status}</td>
+                </tr>
+            `;
+            });
+
+            // Calculate Weighted GPA (Total Weighted Points / Total Credits)
+            const finalAvgGpa = totalCredits > 0 ? (totalWeightedGpa / totalCredits).toFixed(2) : "0.00";
+
+            // Update DOM elements
+            tableBody.innerHTML = tableRowsHtml;
+            avgGpaEl.innerText = finalAvgGpa;
+            totalCreditsEl.innerText = `${totalCredits} / 128`;
+        }
+    </script>
+
+</body>
+
+</html>
