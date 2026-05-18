@@ -36,5 +36,4 @@ The dashboard showing the detailed grade overview table, cumulative GPA, and gra
 
 ### Clone the Repository
 ```bash
-git clone [https://github.com/RickyJan0918/GradeVault-Dashboard.git]([https://github.com/your-username/GradeVault-Dashboard.git](https://rickyjan0918.github.io/WEB-BASED-Final/)
-cd GradeVault-Dashboard
+git clone [https://github.com/RickyJan0918/GradeVault-Dashboard.git] cd GradeVault-Dashboard
