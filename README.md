@@ -1,8 +1,8 @@
-# GradeVault Dashboard 🎓
+# GradeVault Dashboard
 
 GradeVault is a sleek, intuitive, and efficient academic grade and credit management system. Designed with a user-friendly two-tab interface, it allows students to easily log their GPAs, track earned credits, and monitor their progress toward graduation requirements in real time.
 
-## 🚀 Features
+## Features
 
 - **Course Selection & Entry (Tab 1)**:
   - Quick course selection via a dropdown menu that automatically displays the course's credit weight.
@@ -17,26 +17,24 @@ GradeVault is a sleek, intuitive, and efficient academic grade and credit manage
 
 ### 1. Course Selection (Tab 1)
 The interface where users select their enrolled courses and input their respective GPAs.
-![Course Selection Tab](image_7b184d.png)
 
 ### 2. Grade Inquiry (Tab 2)
 The dashboard showing the detailed grade overview table, cumulative GPA, and graduation credit progress.
-![Grade Inquiry Tab](image_7b18cb.png)
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 *(Feel free to update this section based on your actual tech stack)*
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+) / React / Vue.js
-- **UI Framework**: Tailwind CSS / Bootstrap
-- **State Management**: LocalStorage / Web Storage API (or Backend API if applicable)
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **UI Framework**: CSS
+- **State Management**: LocalStorage
 
 ---
 
-## 🏃 Getting Started
+## Getting Started
 
 ### Clone the Repository
 ```bash
-git clone [https://github.com/your-username/GradeVault-Dashboard.git](https://github.com/your-username/GradeVault-Dashboard.git)
+git clone [https://github.com/RickyJan0918/GradeVault-Dashboard.git]([https://github.com/your-username/GradeVault-Dashboard.git](https://rickyjan0918.github.io/WEB-BASED-Final/)
 cd GradeVault-Dashboard
